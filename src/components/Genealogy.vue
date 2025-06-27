@@ -1308,14 +1308,14 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick, onUnmounted } from "vue";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "./ui/dropdown-menu";
 import G6 from "@antv/g6";
 
 // 响应式数据
@@ -1345,7 +1345,17 @@ const showEighteenModal = ref(false);
 const eighteenSearchValue = ref("");
 const eighteenSearchResults = ref<any[]>([]);
 const selectedPersonEighteen = ref<any>(null);
-const eighteenData = ref({
+
+// 定义祖宗十八代数据类型
+interface EighteenData {
+  beforeList: any[];
+  me: any;
+  afterList: any[];
+  beforeLabel: string[];
+  afterLabel: string[];
+}
+
+const eighteenData = ref<EighteenData>({
   beforeList: [],
   me: {},
   afterList: [],
@@ -1651,7 +1661,7 @@ const createGraph = (data: any) => {
         getId: function getId(d: any) {
           return d.id;
         },
-        getHeight: function getHeight(d: any) {
+        getHeight: function getHeight() {
           return 14;
         },
         getWidth: function getWidth() {
@@ -1695,8 +1705,8 @@ const createGraph = (data: any) => {
     });
 
     console.log("G6图谱创建成功");
-  } catch (error) {
-    console.error("G6图谱创建失败:", error);
+  } catch (err) {
+    console.error("G6图谱创建失败:", err);
     error.value = "图谱渲染失败，请刷新页面重试";
   }
 };
@@ -1844,10 +1854,10 @@ const searchPerson = async (query: string): Promise<any[]> => {
 
     const result = await response.json();
     return result.success ? result.data || [] : [];
-  } catch (error) {
-    console.error("搜索人员失败:", error);
-    return [];
-  }
+      } catch (error: any) {
+      console.error("搜索人员失败:", error);
+      return [];
+    }
 };
 
 // 查找共同先祖
