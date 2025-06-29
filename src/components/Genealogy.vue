@@ -1718,7 +1718,7 @@ const fetchData = async () => {
     error.value = "";
 
     const response = await fetch(
-      "https://server-genealogy.bravesfly.workers.dev/api/data"
+      "https://genealogy.ameno.space/api/data"
     );
 
     if (!response.ok) {
@@ -1843,7 +1843,7 @@ const searchPerson = async (query: string): Promise<any[]> => {
 
   try {
     const response = await fetch(
-      `https://server-genealogy.bravesfly.workers.dev/api/genealogy/search?q=${encodeURIComponent(
+      `https://genealogy.ameno.space/api/genealogy/search?q=${encodeURIComponent(
         query
       )}`
     );
